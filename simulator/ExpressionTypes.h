@@ -12,7 +12,7 @@ using namespace std;
 class BinaryOperator: public Expression {
 
 protected:
-Expression *right, *left;
+    Expression *right, *left;
 
 public:
     BinaryOperator(Expression *right, Expression *left);
@@ -22,7 +22,7 @@ public:
 class UnaryOperator: public Expression {
 
 protected:
-Expression *exp;
+    Expression *exp;
 
 public:
     UnaryOperator(Expression *exp);
@@ -30,54 +30,54 @@ public:
 };
 
 class Plus: public BinaryOperator {
-    public:
+public:
     Plus(Expression* exp1, Expression* exp2);
     double calculate();
     ~Plus();
-    
+
 };
 
 class Minus: public BinaryOperator {
-    public:
+public:
     Minus(Expression* exp1, Expression* exp2);
     double calculate();
     ~Minus();
 };
 
 class Mul: public BinaryOperator {
-    public:
+public:
     Mul(Expression* exp1, Expression* exp2);
     double calculate();
     ~Mul();
 };
 
 class Div: public BinaryOperator {
-    public:
+public:
     Div(Expression* exp1, Expression* exp2);
     double calculate();
     ~Div();
 };
 
 class UPlus: public UnaryOperator {
-    public:
+public:
     UPlus(Expression* exp1);
     double calculate();
     ~UPlus();
 };
 
 class UMinus: public UnaryOperator {
-    public:
+public:
     UMinus(Expression* exp1);
     double calculate();
     ~UMinus();
 };
 
 class Variable: public Expression {
-    private:
+private:
     string name;
     double value;
 
-    public:
+public:
     Variable(string name, double value);
     Variable& operator++();
     Variable& operator--();
@@ -89,10 +89,10 @@ class Variable: public Expression {
 };
 
 class Value: public Expression {
-    private:
+private:
     const double val;
 
-    public:
+public:
     Value(double value) : val(value) {};
     double calculate();
 };
@@ -100,7 +100,7 @@ class Value: public Expression {
 class RelationalOperator {
 
 protected:
-Expression *right, *left;
+    Expression *right, *left;
 
 public:
     RelationalOperator(Expression *right, Expression *left);
@@ -108,62 +108,62 @@ public:
 };
 
 class Greater: public RelationalOperator {
-    public:
+public:
     Greater(Expression* exp1, Expression* exp2);
     bool compare();
     ~Greater();
-    
+
 };
 
 class Smaller: public RelationalOperator {
-    public:
+public:
     Smaller(Expression* exp1, Expression* exp2);
     bool compare();
     ~Smaller();
-    
+
 };
 
 class Equal: public RelationalOperator {
-    public:
+public:
     Equal(Expression* exp1, Expression* exp2);
     bool compare();
     ~Equal();
-    
+
 };
 
 class NotEqual: public RelationalOperator {
-    public:
+public:
     NotEqual(Expression* exp1, Expression* exp2);
     bool compare();
     ~NotEqual();
-    
+
 };
 
 class GreaterEqual: public RelationalOperator {
-    public:
+public:
     GreaterEqual(Expression* exp1, Expression* exp2);
     bool compare();
     ~GreaterEqual();
-    
+
 };
 
 class SmallerEqual: public RelationalOperator {
-    public:
+public:
     SmallerEqual(Expression* exp1, Expression* exp2);
     bool compare();
     ~SmallerEqual();
-    
+
 };
-class Interpreter {
-    private:
-        queue<string> output;
-        stack<char> operations;
-        vector< pair <string, string> > variables;
+class ExpressionInterpreter {
+private:
+    queue<string> output;
+    stack<char> operations;
+    vector< pair <string, string> > variables;
 
-    public:
-        Expression* interpret(string tokens);
-        void setVariables(string vars);
+public:
+    Expression* interpret(string tokens);
+    void setVariables(string vars);
 };
 
 
-#endif 
+#endif

@@ -42,7 +42,7 @@ Plus::~Plus() {
     {
         delete(this->right);
     }
-    
+
     if (left != NULL)
     {
         delete(this->left);
@@ -53,7 +53,7 @@ Minus::Minus(Expression* exp1, Expression* exp2) : BinaryOperator(right, left) {
     this->right = exp1;
     this->left = exp2;
 }
-    
+
 double Minus::calculate() {
     return right->calculate() - left->calculate();
 }
@@ -63,7 +63,7 @@ Minus::~Minus() {
     {
         delete(this->right);
     }
-    
+
     if (left != NULL)
     {
         delete(this->left);
@@ -74,7 +74,7 @@ Mul::Mul(Expression* exp1, Expression* exp2) : BinaryOperator(right, left) {
     this->right = exp1;
     this->left = exp2;
 }
-    
+
 double Mul::calculate() {
     return right->calculate() * left->calculate();
 }
@@ -84,7 +84,7 @@ Mul::~Mul() {
     {
         delete(this->right);
     }
-    
+
     if (left != NULL)
     {
         delete(this->left);
@@ -95,11 +95,11 @@ Div::Div(Expression* exp1, Expression* exp2) : BinaryOperator(right, left) {
     this->right = exp1;
     this->left = exp2;
 }
-    
+
 double Div::calculate() {
     if (left->calculate() == 0)
     {
-        throw "cannot divide by 0";    
+        throw "cannot divide by 0";
     } else {
         return right->calculate() / left->calculate();
     }
@@ -110,7 +110,7 @@ Div::~Div() {
     {
         delete(this->right);
     }
-    
+
     if (left != NULL)
     {
         delete(this->left);
@@ -130,7 +130,7 @@ UPlus::~UPlus() {
     {
         delete(this->exp);
     }
-}   
+}
 
 UMinus::UMinus(Expression* exp1) : UnaryOperator(exp) {
     this->exp = exp1;
@@ -206,7 +206,7 @@ Greater::~Greater() {
     {
         delete(this->right);
     }
-    
+
     if (left != NULL)
     {
         delete(this->left);
@@ -226,7 +226,7 @@ Smaller::~Smaller() {
     {
         delete(this->right);
     }
-    
+
     if (left != NULL)
     {
         delete(this->left);
@@ -246,7 +246,7 @@ GreaterEqual::~GreaterEqual() {
     {
         delete(this->right);
     }
-    
+
     if (left != NULL)
     {
         delete(this->left);
@@ -266,7 +266,7 @@ SmallerEqual::~SmallerEqual() {
     {
         delete(this->right);
     }
-    
+
     if (left != NULL)
     {
         delete(this->left);
@@ -286,7 +286,7 @@ Equal::~Equal() {
     {
         delete(this->right);
     }
-    
+
     if (left != NULL)
     {
         delete(this->left);
@@ -306,17 +306,17 @@ NotEqual::~NotEqual() {
     {
         delete(this->right);
     }
-    
+
     if (left != NULL)
     {
         delete(this->left);
     }
 }
 
-Expression* Interpreter::interpret(string tokens) {
+Expression* ExpressionInterpreter::interpret(string tokens) {
     for (int i = 0; i < tokens.length(); i++) {
         if (i != 0 && i+1 < tokens.length()) {
-            char str[] = {tokens[i], tokens[i+1]}; 
+            char str[] = {tokens[i], tokens[i+1]};
         }
 
 
@@ -344,8 +344,8 @@ Expression* Interpreter::interpret(string tokens) {
 
         } else if (isOperator(tokens[i]))
         {
-            if ((i == 0 || tokens[i-1] == '(') 
-                && i+1 < tokens.length() 
+            if ((i == 0 || tokens[i-1] == '(')
+                && i+1 < tokens.length()
                 && isValidUnary(tokens[i], tokens[i+1]))
             {
                 if (tokens[i] == '-')
@@ -354,9 +354,9 @@ Expression* Interpreter::interpret(string tokens) {
                 } else
                 {
                     operations.push('@'); //Unary plus's sign (my choice).
-                } 
-            } else if (i != 0 && i+1 < tokens.length() 
-                && isValidBinary(tokens[i-1], tokens[i], tokens[i+1]))
+                }
+            } else if (i != 0 && i+1 < tokens.length()
+                       && isValidBinary(tokens[i-1], tokens[i], tokens[i+1]))
             {
                 while (!operations.empty() && (precedenceOf(operations.top()) > precedenceOf(tokens[i])))
                 {
@@ -364,7 +364,7 @@ Expression* Interpreter::interpret(string tokens) {
                     output.push(op);
                     operations.pop();
                 }
-                
+
                 operations.push(tokens[i]);
             } else
             {
@@ -394,7 +394,7 @@ Expression* Interpreter::interpret(string tokens) {
             for (int j = 0; j < variables.size(); j++)
             {
                 string check = tokens.substr(i, variables[j].first.length());
-                
+
                 if (check.compare(variables[j].first) == 0)
                 {
                     output.push(variables[j].second);
@@ -402,11 +402,11 @@ Expression* Interpreter::interpret(string tokens) {
                     break;
                 }
             }
-            
+
             if (!foundInVars)
             {
                 throw "input isn't valid!";
-            }   
+            }
         }
     }
 
@@ -415,7 +415,7 @@ Expression* Interpreter::interpret(string tokens) {
         output.push(op);
         operations.pop();
     }
-    
+
     deque<Expression*> final;
 
     while (!output.empty()) {
@@ -440,7 +440,7 @@ Expression* Interpreter::interpret(string tokens) {
                 final.pop_back();
                 final.push_back(makeBinatyExp(op, e1, e2));
             }
-        }       
+        }
     }
     return final.back();
 }
@@ -454,12 +454,12 @@ bool isDigit(char c) {
 }
 
 bool isOperator(char c) {
-   if (c == '+' || c == '-' || c == '*' || c == '/')
-   {
-       return true;
-   } else {
-       return false;
-   }
+    if (c == '+' || c == '-' || c == '*' || c == '/')
+    {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 bool isValidUnary(char op, char next) {
@@ -487,7 +487,7 @@ bool isValidBinary(char prev, char op, char next) {
 }
 
 int precedenceOf(char op) {
-    if (op == '-' || op == '+') 
+    if (op == '-' || op == '+')
     {
         return 1;
     }
@@ -499,10 +499,10 @@ int precedenceOf(char op) {
     {
         return 3;
     }
-     else
+    else
     {
         return 0;
-    }  
+    }
 }
 
 bool isOpStr(string op) {
@@ -534,7 +534,7 @@ Expression* makeUnaryExp(string s, Expression* e) {
     } else
     {
         return new UMinus(e);
-    }    
+    }
 }
 
 Expression* makeBinatyExp(string s, Expression* e1, Expression* e2) {
@@ -553,7 +553,7 @@ Expression* makeBinatyExp(string s, Expression* e1, Expression* e2) {
     }
 }
 
-void Interpreter::setVariables(string vars) {
+void ExpressionInterpreter::setVariables(string vars) {
     vector<string> tokens;
 
     for (size_t i = 0; i < vars.length(); i++)
@@ -562,7 +562,7 @@ void Interpreter::setVariables(string vars) {
         tokens.push_back(vars.substr(i, pos));
         i += tokens.back().length();
     }
-    
+
     for (int j = 0; j < tokens.size(); j++)
     {
         string varName = tokens[j].substr(0, tokens[j].find('='));
@@ -577,8 +577,8 @@ void Interpreter::setVariables(string vars) {
                     variables.erase(variables.begin() + k);
                 }
             }
-                
-            variables.insert(variables.end(), pair<string, string>(varName, value));            
+
+            variables.insert(variables.end(), pair<string, string>(varName, value));
         } else
         {
             throw "invalid input!";
