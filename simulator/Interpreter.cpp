@@ -4,6 +4,10 @@
 #include <fstream>
 #include <vector>
 #include "Interpreter.h"
+#include "Command.h"
+#include "CommandTypes.h"
+#include "ConditionParser.h"
+#include "FuncCommand.h"
 
 using namespace std;
 
@@ -13,9 +17,9 @@ Interpreter::Interpreter(string fileName) {
     mapCommands();
 }
 vector<string> Interpreter::lexer() {
-    vector<string> lines = getLinesFromFiles();
-    vector<string> tokens;
-    string newLanguageWord;
+   vector<string> lines = getLinesFromFile();
+   vector<string> tokens;
+   string newLanguageWord;
 
     for (int i = 0; i < lines.size(); i++) {
         string line = lines[i];
@@ -31,7 +35,7 @@ vector<string> Interpreter::lexer() {
                 continue;
 
             } else if (j + 1 < lineLength && ((line[j] == '-' && line[j + 1] == '>')
-                                              || (line[j] == '<' && line[j + 1] == '-'))) {
+                || (line[j] == '<' && line[j + 1] == '-'))) {
                 if (newLanguageWord.length() != 0) {
                     tokens.push_back(newLanguageWord);
                     newLanguageWord = "";
@@ -112,6 +116,7 @@ void Interpreter::parser(){
         if (itr != commands.end()) {
             Command* c = itr->second;
             index += c->execute(getParameters(index));
+
         }
         index++;
     }
@@ -119,7 +124,7 @@ void Interpreter::parser(){
 
 Interpreter::~Interpreter() {}
 
-vector<string> Interpreter::getLinesFromFiles () {
+vector<string> Interpreter::getLinesFromFile () {
     vector<string> lines;
     string line;
     ifstream file;
@@ -138,8 +143,10 @@ vector<string> Interpreter::getLinesFromFiles () {
     return lines;
 }
 
+
+//fixing bugs!!!!
 vector<string> Interpreter::getParameters(int position) {
-    map<string, Command*>::iterator itr = commands.end();
+    map<string, Command*>::iterator itr;
     string command = tokens[position];
     vector<string> parameters;
     bool conditionOrFunc = false;
@@ -172,9 +179,18 @@ void Interpreter::mapCommands() {
 
         } else if (tokens[i].compare("while") == 0) {
 
-        } else if ()
+        } else if (tokens[i].compare("=") == 0) {
+
+        } else if (tokens[i].compare("Sleep") == 0) {
+
+        } else if (tokens[i].compare("Print") == 0) {
+
+        } else if (tokens[i].compare("if") == 0) {
+
+        }
     }
 }
+
 
 
 
