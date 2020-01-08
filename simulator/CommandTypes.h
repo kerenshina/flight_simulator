@@ -4,6 +4,8 @@
 #include "Command.h"
 #include <string>
 #include <vector>
+#include <map>
+#include "Variable.h"
 
 using namespace std;
 
@@ -20,10 +22,27 @@ public:
 };
 
 class DefineVarCommand : public Command {
+    //private
+    map<string, Variable*> symbolTable;
 public:
+    DefineVarCommand(map<string, Variable*> symbolTable);
     int execute(vector<string> parameters);
     ~DefineVarCommand();
 };
+
+class SleepCommand : public Command  {
+public:
+    int execute(vector<string> parameters);
+    ~SleepCommand();
+};
+
+class PrintCommand : public Command  {
+public:
+    int execute(vector<string> parameters);
+    ~PrintCommand();
+};
+
+
 
 
 
