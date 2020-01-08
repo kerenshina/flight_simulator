@@ -6,7 +6,7 @@
 
 using namespace std;
 
-OpenServerCommand::OpenServerCommand(){
+OpenServerCommand::OpenServerCommand() {
 
 }
 

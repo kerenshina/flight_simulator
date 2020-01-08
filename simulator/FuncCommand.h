@@ -3,14 +3,18 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include "Command.h"
 
 using namespace std;
 
-class ConditionParser : public Command {
-
+class FuncCommand : public Command {
+    map<string, Command*> commands;
 public:
+    FuncCommand() {}
+    void getCommands(map<string, Command*> commands);
     int execute(vector<string> parameters);
+    ~FuncCommand();
 };
 
 #endif //SIMULATOR_FUNC_COMMAND_H

@@ -21,9 +21,8 @@ public:
 private:
     vector<string> lexer();
     vector<string> getLinesFromFile();
-    Command* getFromMap(string key);
     vector<string> getParameters(int position);
-    void mapCommands();
+    void mapCommands(int index);
 
 };
 

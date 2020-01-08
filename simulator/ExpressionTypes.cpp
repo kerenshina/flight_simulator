@@ -147,42 +147,6 @@ UMinus::~UMinus() {
     }
 }
 
-Variable::Variable(string name, double value) {
-    this->name = name;
-    this->value = value;
-}
-
-Variable& Variable::operator++() {
-    this->value = ++(this->value);
-    return *this;
-}
-
-Variable& Variable::operator--() {
-    this->value = --(this->value);
-    return *this;
-}
-
-Variable& Variable::operator+=(double val) {
-    this->value = this->value + val;
-    return *this;
-}
-
-Variable& Variable::operator-=(double val) {
-    this->value = this->value - val;
-    return *this;
-}
-
-Variable& Variable::operator++(int num) {
-    return ++*this;
-}
-Variable& Variable::operator--(int num) {
-    return --*this;
-}
-double Variable::calculate() {
-    return this->value;
-}
-
-
 
 double Value::calculate() {
     return this->val;
@@ -463,7 +427,7 @@ bool isOperator(char c) {
 }
 
 bool isValidUnary(char op, char next) {
-    if ((next == '(' || isDigit(next)) && (op == '-' || op == '+'))
+    if (op == '-' || op == '+')
     {
         return true;
     } else

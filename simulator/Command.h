@@ -2,7 +2,6 @@
 #define SIMULATOR_COMMAND_H
 
 #include <string>
-#include <vector>
 
 using namespace std;
 /**

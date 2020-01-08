@@ -72,22 +72,6 @@ public:
     ~UMinus();
 };
 
-class Variable: public Expression {
-private:
-    string name;
-    double value;
-
-public:
-    Variable(string name, double value);
-    Variable& operator++();
-    Variable& operator--();
-    Variable& operator+=(double val);
-    Variable& operator-=(double val);
-    Variable& operator++(int num);
-    Variable& operator--(int num);
-    double calculate();
-};
-
 class Value: public Expression {
 private:
     const double val;

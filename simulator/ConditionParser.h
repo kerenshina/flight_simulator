@@ -13,15 +13,4 @@ public:
     virtual int execute(vector<string> parameters) = 0;
 };
 
-class IfCommand : public ConditionParser {
-public:
-    int execute(vector<string> parameters);
-    ~IfCommand();
-};
-
-class LoopCommand : public ConditionParser {
-public:
-    int execute(vector<string> parameters);
-    ~LoopCommand();
-};
 #endif //SIMULATOR_CONDITION_PARSER_H

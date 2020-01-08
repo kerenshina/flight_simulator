@@ -20,6 +20,12 @@ public:
     Directions getDirection();
     string getSim();
     double getValue();
+    Variable& operator++();
+    Variable& operator--();
+    Variable& operator+=(double val);
+    Variable& operator-=(double val);
+    Variable& operator++(int num);
+    Variable& operator--(int num);
     ~Variable(){}
 };
 #endif //SIMULATOR_VARIABLE_H
