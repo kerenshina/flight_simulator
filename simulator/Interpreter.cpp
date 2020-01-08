@@ -17,9 +17,9 @@ Interpreter::Interpreter(string fileName) {
     mapCommands();
 }
 vector<string> Interpreter::lexer() {
-   vector<string> lines = getLinesFromFile();
-   vector<string> tokens;
-   string newLanguageWord;
+    vector<string> lines = getLinesFromFile();
+    vector<string> tokens;
+    string newLanguageWord;
 
     for (int i = 0; i < lines.size(); i++) {
         string line = lines[i];
@@ -35,7 +35,7 @@ vector<string> Interpreter::lexer() {
                 continue;
 
             } else if (j + 1 < lineLength && ((line[j] == '-' && line[j + 1] == '>')
-                || (line[j] == '<' && line[j + 1] == '-'))) {
+                                              || (line[j] == '<' && line[j + 1] == '-'))) {
                 if (newLanguageWord.length() != 0) {
                     tokens.push_back(newLanguageWord);
                     newLanguageWord = "";
@@ -190,7 +190,6 @@ void Interpreter::mapCommands() {
         }
     }
 }
-
 
 
 

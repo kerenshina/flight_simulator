@@ -6,10 +6,15 @@
 #include <vector>
 #include <map>
 #include "Variable.h"
-
+#include <sys/socket.h>
+#include <iostream>
+#include <unistd.h>
+#include <netinet/in.h>
+#include <thread>
 using namespace std;
 
 class OpenServerCommand : public Command {
+    void createServer(int sourcePort);
 public:
     OpenServerCommand();
     int execute(vector<string> parameters);
@@ -20,6 +25,7 @@ class ConnectCommand : public Command  {
 public:
     ConnectCommand();
     int execute(vector<string> parameters);
+    void ClientConnectTo(string destIp,int destPort);
     ~ConnectCommand();
 };
 
