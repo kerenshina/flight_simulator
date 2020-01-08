@@ -5,15 +5,21 @@
 #include <string>
 using namespace std;
 
+enum Directions {left, right};
 
 class Variable {
     double value;
     string sim;
-    bool isLeft;
+    Directions direction;
 public:
-    Variable(double value,string direction);
+    Variable() {}
     void setSim(string sim);
-    void updateValue(double newVal);
+    void setValue(double value);
+    void setDirectionByStr(string arrow);
+    void setDirectionByInt(Directions direction);
+    Directions getDirection();
+    string getSim();
+    double getValue();
     ~Variable(){}
 };
 #endif //SIMULATOR_VARIABLE_H
