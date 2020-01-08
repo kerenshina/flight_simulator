@@ -3,9 +3,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <cstring>
-#include <arpa/inet.h>
-#include <unistd.h>
 
 using namespace std;
 
@@ -14,59 +11,7 @@ OpenServerCommand::OpenServerCommand() {
 }
 
 int OpenServerCommand::execute(vector<string> parameters) {
-    if (parameters.size() != 1) {
-        cout << "number of parameters sent to command doesn't match the command type!" << endl;
-        return 0;
-    }
-    int sourcePort = atoi(parameters[0].c_str());
-    createServer(sourcePort);
-    return parameters.size() + 1;
-}
-//create server
-void OpenServerCommand::createServer(int sourcePort) {
-// exemple of
-    int server_fd, new_socket, valread;
-    struct sockaddr_in address;
-    int opt = 1;
-    int addrlen = sizeof(address);
-    char buffer[2048] = {0};
-    char *hello = "Hello from server";
 
-    // Creating socket file descriptor
-    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
-        perror("socket failed");
-        exit(EXIT_FAILURE);
-    }
-
-    // Forcefully attaching socket to the port 8080
-    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
-                   &opt, sizeof(opt))) {
-        perror("setsockopt");
-        exit(EXIT_FAILURE);
-    }
-    address.sin_family = AF_INET;
-    address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons(sourcePort);
-
-    // Forcefully attaching socket to the port 8080
-    if (bind(server_fd, (struct sockaddr *) &address,
-             sizeof(address)) < 0) {
-        perror("bind failed");
-        exit(EXIT_FAILURE);
-    }
-    if (listen(server_fd, 3) < 0) {
-        perror("listen");
-        exit(EXIT_FAILURE);
-    }
-    if ((new_socket = accept(server_fd, (struct sockaddr *) &address,
-                             (socklen_t *) &addrlen)) < 0) {
-        perror("accept");
-        exit(EXIT_FAILURE);
-    }
-    valread = read(new_socket, buffer, 2048);
-    printf("%s\n", buffer);
-    send(new_socket, hello, strlen(hello), 0);
-    printf("Hello message sent\n");
 }
 
 OpenServerCommand::~OpenServerCommand() {
@@ -79,55 +24,12 @@ ConnectCommand::ConnectCommand(){
 }
 
 int ConnectCommand::execute(vector<string> parameters) {
-    if (parameters.size() != 2) {
-        cout << "number of parameters sent to command doesn't match the command type!" << endl;
-        return 0;
-    }
-    string destIp = parameters[1];
-    int destPort = atoi(parameters[2].c_str());
-    ClientConnectTo(destIp,destPort);
-    return parameters.size() + 1;
-}
 
-void ConnectCommand::ClientConnectTo(string destIp, int destPort) {
-    int sock = 0, valread;
-    struct sockaddr_in serv_addr;
-    char *hello = "Hello from client";
-    char buffer[2048] = {0};
-    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
-    {
-        printf("\n Socket creation error \n");
-        exit(-1);
-    }
-
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(destPort);
-
-    // Convert IPv4 and IPv6 addresses from text to binary form
-    char* deIp;
-    strcpy(deIp, destIp.c_str());
-    if(inet_pton(AF_INET,deIp, &serv_addr.sin_addr)<=0)
-    {
-        printf("\nInvalid address/ Address not supported \n");
-        exit(-1);
-    }
-
-    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
-    {
-        printf("\nConnection Failed \n");
-        exit(-1);
-    }
-    send(sock , hello , strlen(hello) , 0 );
-    printf("Hello message sent\n");
-    valread = read( sock , buffer, 2048);
-    printf("%s\n",buffer );
 }
 
 ConnectCommand::~ConnectCommand() {
 
 }
-
-
 
 
 DefineVarCommand::DefineVarCommand(map<string, Variable*>* symbolTable) {
@@ -212,3 +114,4 @@ int PrintCommand::execute(vector<string> parameters) {
 PrintCommand::~PrintCommand() {
 
 }
+

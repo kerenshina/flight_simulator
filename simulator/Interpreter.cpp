@@ -17,15 +17,9 @@ Interpreter::Interpreter(string fileName) {
     this->tokens = lexer();
 }
 vector<string> Interpreter::lexer() {
-<<<<<<< HEAD
     vector<string> tokens;
     vector<string> lines = this->getLinesFromFile();
     int position = 0;
-=======
-    vector<string> lines = getLinesFromFile();
-    vector<string> tokens;
-    string newLanguageWord;
->>>>>>> 88d6802badc8dfc8ed10b7ee4e9701e0a8365d75
 
     for (int i = 0; i < lines.size(); i++)
     {
@@ -42,7 +36,6 @@ vector<string> Interpreter::lexer() {
 //                    newWord = "";
 //                }
                 continue;
-<<<<<<< HEAD
             }
             else if (j + 1 < line.length()
                      && ((line[j] == '-' && line[j + 1] == '>') || (line[j] == '<' && line[j + 1] == '-')))
@@ -51,14 +44,6 @@ vector<string> Interpreter::lexer() {
                 {
                     tokens.push_back(newWord);
                     newWord = "";
-=======
-
-            } else if (j + 1 < lineLength && ((line[j] == '-' && line[j + 1] == '>')
-                                              || (line[j] == '<' && line[j + 1] == '-'))) {
-                if (newLanguageWord.length() != 0) {
-                    tokens.push_back(newLanguageWord);
-                    newLanguageWord = "";
->>>>>>> 88d6802badc8dfc8ed10b7ee4e9701e0a8365d75
                 }
                 newWord = newWord + line[j] + line[j + 1];
                 tokens.push_back(newWord);
@@ -249,6 +234,7 @@ void Interpreter::mapCommands(int index) {
         }
     }
 }
+
 
 
 
