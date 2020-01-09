@@ -30,4 +30,3 @@ Variable& Variable::operator--(int num) {
 double Variable::calculate() {
     return this->value;
 }
-

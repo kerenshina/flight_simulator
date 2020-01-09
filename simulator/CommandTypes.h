@@ -6,10 +6,15 @@
 #include <vector>
 #include <map>
 #include "Variable.h"
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <cstring>
+#include <unistd.h>
 
 using namespace std;
 
 class OpenServerCommand : public Command {
+   // void createServer(int sourcePort);
 public:
     OpenServerCommand();
     int execute(vector<string> parameters);

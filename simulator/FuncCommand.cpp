@@ -17,4 +17,3 @@ void FuncCommand::getCommands(map<string, Command*> commands){
 FuncCommand::~FuncCommand() {
 
 }
-

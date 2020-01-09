@@ -15,33 +15,36 @@ using namespace std;
 Interpreter::Interpreter(string fileName) {
     this->fileName = fileName;
     this->tokens = lexer();
+    for (int i = 0; i < tokens.size(); i++) {
+        cout << tokens[i] << endl;
+    }
 }
+
 vector<string> Interpreter::lexer() {
     vector<string> tokens;
     vector<string> lines = this->getLinesFromFile();
     int position = 0;
 
-    for (int i = 0; i < lines.size(); i++)
-    {
+    for (int i = 0; i < lines.size(); i++) {
         string line = lines[i];
         string newWord = "";
 
-        for (int j = 0; j < line.length(); j++)
-        {
-            if (line[j] == '\t' || line[j] == '\n' || line[j] == ' ')
-            {
+        for (int j = 0; j < line.length(); j++) {
+            if (line[j] == '\t' || line[j] == '\n' || line[j] == ' ') {
+                if (newWord.compare("var") == 0)
+                {
+                    tokens.push_back(newWord);
+                    newWord = "";
+                }
 //                if (newWord.length() != 0)
 //                {
 //                    tokens.push_back(newWord);
 //                    newWord = "";
 //                }
-                continue;
-            }
-            else if (j + 1 < line.length()
-                     && ((line[j] == '-' && line[j + 1] == '>') || (line[j] == '<' && line[j + 1] == '-')))
-            {
-                if (newWord.length() != 0)
-                {
+                    continue;
+            } else if (j + 1 < line.length()
+                       && ((line[j] == '-' && line[j + 1] == '>') || (line[j] == '<' && line[j + 1] == '-'))) {
+                if (newWord.length() != 0) {
                     tokens.push_back(newWord);
                     newWord = "";
                 }
@@ -49,71 +52,53 @@ vector<string> Interpreter::lexer() {
                 tokens.push_back(newWord);
                 newWord = "";
                 j++;
-            }
-            else if (line[j] == '"')
-            {
-                if (newWord.length() != 0)
-                {
+            } else if (line[j] == '"') {
+                if (newWord.length() != 0) {
                     tokens.push_back(newWord);
                     newWord = "";
                 }
                 newWord = newWord + line[j];
                 j++;
-                while (j < line.length() && line[j] != '"')
-                {
+                while (j < line.length() && line[j] != '"') {
                     newWord = newWord + line[j];
                 }
-                if (line[j] == '"')
-                {
+                if (line[j] == '"') {
                     newWord = newWord + line[j];
                 }
                 tokens.push_back(newWord);
                 newWord = "";
-            }
-            else if (line[j]== '=' || line[j] == '{' || line[j] == '}')
-            {
-                if (newWord.length() != 0)
-                {
+            } else if (line[j] == '=' || line[j] == '{' || line[j] == '}') {
+                if (newWord.length() != 0) {
                     tokens.push_back(newWord);
                     newWord = "";
                 }
                 newWord = newWord + line[j];
                 tokens.push_back(newWord);
                 newWord = "";
-            }
-            else if (line[j] == '(')
-            {
+            } else if (line[j] == '(') {
                 if (newWord.length() != 0) {
                     tokens.push_back(newWord);
                     newWord = "";
                 }
                 ++j;
-                while (j < line.length() && line[j] != ')')
-                {
-                    if (line[j] == ',')
-                    {
+                while (j < line.length() && line[j] != ')') {
+                    if (line[j] == ',') {
                         tokens.push_back(newWord);
                         newWord = "";
-                    }
-                    else
-                    {
+                    } else {
                         newWord = newWord + line[j];
                     }
                     j++;
                 }
                 tokens.push_back(newWord);
                 newWord = "";
-            }
-            else if (j + 1 < line.length() && line[j] == '/' && line[j + 1] == '/')
-            {
+            } else if (j + 1 < line.length() && line[j] == '/' && line[j + 1] == '/') {
                 if (newWord.length() != 0) {
                     tokens.push_back(newWord);
                     newWord = "";
                 }
                 break;
-            }
-            else
-            {
+            } else {
                 newWord = newWord + line[j];
             }
         }
@@ -124,16 +109,16 @@ vector<string> Interpreter::lexer() {
         mapCommands(position);
         position += line.length();
     }
-
+    return tokens; //added
 }
 
-void Interpreter::parser(){
+void Interpreter::parser() {
     int index = 0;
 
     while (index < this->tokens.size()) {
-        map<string, Command*>::iterator itr = commands.find(tokens[index]);
+        map<string, Command *>::iterator itr = commands.find(tokens[index]);
         if (itr != commands.end()) {
-            Command* c = itr->second;
+            Command *c = itr->second;
             index += c->execute(getParameters(index));
         }
         index++;
@@ -142,16 +127,16 @@ void Interpreter::parser(){
 
 Interpreter::~Interpreter() {}
 
-vector<string> Interpreter::getLinesFromFile () {
+vector<string> Interpreter::getLinesFromFile() {
     vector<string> lines;
     string line;
     ifstream file;
     file.open(fileName, ifstream::in);
-    if(!file.is_open()) {
+    if (!file.is_open()) {
         cout << "Cannot open file!" << endl;
         exit(1);
     } else {
-        while(getline(file, line)) {
+        while (getline(file, line)) {
             if (line.length() != 0) {
                 lines.push_back(line);
             }
@@ -163,8 +148,8 @@ vector<string> Interpreter::getLinesFromFile () {
 
 
 vector<string> Interpreter::getParameters(int position) {
-    map<string, Command*>::iterator itr;
-    map<string,Command*> commandsToScope;
+    map<string, Command *>::iterator itr;
+    map<string, Command *> commandsToScope;
     string command = tokens[position];
     vector<string> parameters;
     bool scope = false;
@@ -227,14 +212,16 @@ void Interpreter::mapCommands(int index) {
             IfCommand ifCommand;
             commands.insert({tokens[i], &ifCommand});
             conditionCommand = true;
-        } else if (tokens[i].compare("{") && !conditionCommand) {
+        } else if (tokens[i].compare("{") && !conditionCommand) { //lior change index to i-3
             FuncCommand func;
-            commands.insert({tokens[index], &func});
+            commands.insert({tokens[i - 3], &func});
+            break;
+        } else if (tokens[i].compare("}") && conditionCommand) { //lior added
+            conditionCommand = false;
             break;
         }
     }
 }
-
 
 
 
