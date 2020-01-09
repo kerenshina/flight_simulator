@@ -19,10 +19,12 @@ public:
     ~Interpreter();
 
 private:
+    vector<char> operatorVec = {'<', '>', '!', '='};
     vector<string> lexer();
     vector<string> getLinesFromFile();
     vector<string> getParameters(int position);
     void mapCommands(int index);
+    bool inVec(char c);
 
 };
 
