@@ -8,6 +8,8 @@
 #include "CommandTypes.h"
 #include "FuncCommand.h"
 #include "ConditionCommandTypes.h"
+#include <map>
+#include <unordered_map>
 
 using namespace std;
 
@@ -15,9 +17,19 @@ using namespace std;
 Interpreter::Interpreter(string fileName) {
     this->fileName = fileName;
     this->tokens = lexer();
+    mapCommands(0);
+    cout<<"Print tokens: "<<endl;
     for (int i = 0; i < tokens.size(); i++) {
         cout << tokens[i] << endl;
     }
+    cout<<"Print commands: "<<endl;
+    for (auto const& pair:commands){
+        cout<<pair.first<<" "<<pair.second<<endl;
+    }
+    //
+   // commands.at("openDataServer")->execute({"5400"});
+    //map::const iterator pos
+    //this->commands.find("openDataServer")
 }
 
 vector<string> Interpreter::lexer() {
@@ -107,7 +119,8 @@ vector<string> Interpreter::lexer() {
             newWord = "";
         }
         mapCommands(position);
-        position += line.length();
+        cout<<commands.size();
+        position += tokens.size();
     }
     return tokens; //added
 }
@@ -180,18 +193,16 @@ void Interpreter::mapCommands(int index) {
     bool conditionCommand = false;
 
     for (int i = index; i < tokens.size(); i++) {
+        cout<<"insize"<<endl;
         if (tokens[i].compare("openDataServer") == 0) {
             OpenServerCommand openServer;
             commands.insert({tokens[i], &openServer});
-            break;
         } else if (tokens[i].compare("connectControlClient") == 0) {
             ConnectCommand connect;
             commands.insert({tokens[i], &connect});
-            break;
         } else if (tokens[i].compare("var") == 0) {
             DefineVarCommand var = DefineVarCommand(&symbolTable);
             commands.insert({tokens[i], &var});
-            break;
         } else if (tokens[i].compare("while") == 0) {
             LoopCommand whileCommand;
             commands.insert({tokens[i], &whileCommand});
@@ -199,15 +210,12 @@ void Interpreter::mapCommands(int index) {
         } else if (tokens[i].compare("=") == 0) {
             UpdateVarCommand upVar = UpdateVarCommand(&symbolTable);
             commands.insert({tokens[i], &upVar});
-            break;
         } else if (tokens[i].compare("Sleep") == 0) {
             SleepCommand sleep;
             commands.insert({tokens[i], &sleep});
-            break;
         } else if (tokens[i].compare("Print") == 0) {
             PrintCommand print;
             commands.insert({tokens[i], &print});
-            break;
         } else if (tokens[i].compare("if") == 0) {
             IfCommand ifCommand;
             commands.insert({tokens[i], &ifCommand});
@@ -215,10 +223,8 @@ void Interpreter::mapCommands(int index) {
         } else if (tokens[i].compare("{") && !conditionCommand) { //lior change index to i-3
             FuncCommand func;
             commands.insert({tokens[i - 3], &func});
-            break;
         } else if (tokens[i].compare("}") && conditionCommand) { //lior added
             conditionCommand = false;
-            break;
         }
     }
 }

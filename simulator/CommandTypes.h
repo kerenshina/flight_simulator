@@ -14,7 +14,7 @@
 using namespace std;
 
 class OpenServerCommand : public Command {
-   // void createServer(int sourcePort);
+   void createServer(int sourcePort);
 public:
     OpenServerCommand();
     int execute(vector<string> parameters);
