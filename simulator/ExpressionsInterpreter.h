@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 #ifndef EXPRESSIONS_EXPRESSIONS_INTERPRETER_H
 #define EXPRESSIONS_EXPRESSIONS_INTERPRETER_H
+=======
+#ifndef SIMULATOR_EXPRESSIONS_INTERPRETER_H
+#define SIMULATOR_EXPRESSIONS_INTERPRETER_H
+>>>>>>> da606779dfbbd53e2ef3cbc2a726be7dff63a512
 
 #include "Expression.h"
 #include <queue>
@@ -25,4 +30,8 @@ private:
     static bool isValidBinary(char prev, char op, char next);
 };
 
+<<<<<<< HEAD
 #endif //EXPRESSIONS_EXPRESSIONS_INTERPRETER_H
+=======
+#endif //SIMULATOR_EXPRESSIONS_INTERPRETER_H
+>>>>>>> da606779dfbbd53e2ef3cbc2a726be7dff63a512

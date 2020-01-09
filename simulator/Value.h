@@ -14,4 +14,8 @@ public:
     double calculate();
 };
 
+<<<<<<< HEAD
 #endif //EXPRESSIONS_VALUE_H
+=======
+#endif //EXPRESSIONS_VALUE_H
+>>>>>>> da606779dfbbd53e2ef3cbc2a726be7dff63a512

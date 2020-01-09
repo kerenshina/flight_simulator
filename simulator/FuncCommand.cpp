@@ -16,4 +16,8 @@ void FuncCommand::getCommands(map<string, Command*> commands){
 
 FuncCommand::~FuncCommand() {
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> da606779dfbbd53e2ef3cbc2a726be7dff63a512
