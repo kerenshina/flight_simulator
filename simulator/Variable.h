@@ -10,15 +10,15 @@ enum Directions {left, right};
 class Variable {
     double value;
     string sim;
-    Directions direction;
+   // Directions direction;
 public:
     Variable() {}
     void setSim(string sim);
     void setValue(double value);
-    void setDirectionByStr(string arrow);
-    void setDirectionByInt(Directions direction);
-    Directions getDirection();
-    string getSim();
+    //void setDirectionByStr(string arrow);
+   // void setDirectionByInt(Directions direction);
+    //Directions getDirection();
+    const string getSim();
     double getValue();
     double calculate();
     Variable& operator++();
