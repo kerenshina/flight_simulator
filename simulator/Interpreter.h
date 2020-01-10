@@ -15,6 +15,7 @@ class Interpreter {
     map<string, Variable*> symbolTable;
 public:
     Interpreter(string fileName);
+    void printVector(vector<string> vector);
     void parser();
     ~Interpreter();
 

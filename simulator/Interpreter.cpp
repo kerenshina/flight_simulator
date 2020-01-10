@@ -18,15 +18,15 @@ Interpreter::Interpreter(string fileName) {
     this->fileName = fileName;
     this->tokens = lexer();
     mapCommands(0);
-    cout<<"Print tokens: " << endl;
+    cout<<"##### Print tokens: #####" << endl;
     for (int i = 0; i < tokens.size(); i++) {
         cout << tokens[i] << endl;
     }
-    cout<<"Print commands: "<<endl;
+    cout<<"##### Print commands: #####"<<endl;
     for (auto const& pair:commands){
         cout<<pair.first<<" "<<pair.second<<endl;
     }
-    cout<<"going to prser: "<<endl;
+    cout<<"##### going to Parser: ##### "<<endl;
     parser();
     //
    // commands.at("openDataServer")->execute({"5400"});
@@ -136,14 +136,22 @@ vector<string> Interpreter::lexer() {
 
 void Interpreter::parser() {
     int index = 0;
-cout<<tokens.size()<<endl;
+cout<<"Tokens size: "<<tokens.size()<<endl;
     while (index < this->tokens.size()) {
-        cout<< "index: "<<index<<" Key:" <<tokens[index]<<" and ";
+        cout<< "index: "<<index<<" Key:" <<tokens[index];
         map<string, Command *>::iterator itr = commands.find(tokens[index]);
         if (itr != commands.end()) {
             Command *c = itr->second;
-            cout<<"parametrs: " << getParameters(index)[0]<< endl;
-            index += c->execute(getParameters(index));
+
+            vector<string> parameters = getParameters(index);
+            if (tokens[index].compare("=")==0){
+                parameters.push_back(tokens[index-1]);
+            }
+            cout<<"   Parametrs: [";
+            printVector(parameters);
+            cout<<"]"<<endl;
+            int skip =  c->execute(parameters);
+            index += skip;
         }
         index++;
     }
@@ -181,6 +189,7 @@ vector<string> Interpreter::getParameters(int position) {
     position++;
     while (position < tokens.size()) {
         itr = commands.find(tokens[position]);
+
         if (tokens[position].compare("{") == 0) {
             scope = true;
             continue;
@@ -196,7 +205,6 @@ vector<string> Interpreter::getParameters(int position) {
         }
         position++;
     }
-
     return parameters;
 }
 
@@ -210,41 +218,12 @@ void Interpreter::mapCommands(int index) {
     commands["Print"]= new PrintCommand;
     commands["if"]= new IfCommand;
     commands["takeoff"]= new FuncCommand;
+}
 
-//    for (int i = index; i < tokens.size(); i++) {
-//        if (tokens[i].compare("openDataServer") == 0) {
-//            OpenServerCommand *openServer = new OpenServerCommand();
-//            commands.insert({tokens[i], openServer});
-//        } else if (tokens[i].compare("connectControlClient") == 0) {
-//            ConnectCommand *connect = new ConnectCommand();
-//            commands.insert({tokens[i], connect});
-//        } else if (tokens[i].compare("var") == 0) {
-//            DefineVarCommand *var = new DefineVarCommand(&symbolTable);
-//            commands.insert({tokens[i], var});
-//        } else if (tokens[i].compare("while") == 0) {
-//            LoopCommand *whileCommand = new LoopCommand();
-//            commands.insert({tokens[i], whileCommand});
-//            conditionCommand = true;
-//        } else if (tokens[i].compare("=") == 0) {
-//            UpdateVarCommand *upVar = new UpdateVarCommand(&symbolTable);
-//            commands.insert({tokens[i], upVar});
-//        } else if (tokens[i].compare("Sleep") == 0) {
-//            SleepCommand *sleep = new SleepCommand();
-//            commands.insert({tokens[i], sleep});
-//        } else if (tokens[i].compare("Print") == 0) {
-//            PrintCommand *print = new PrintCommand();
-//            commands.insert({tokens[i], print});
-//        } else if (tokens[i].compare("if") == 0) {
-//            IfCommand *ifCommand = new IfCommand();
-//            commands.insert({tokens[i], ifCommand});
-//            conditionCommand = true;
-//        } else if (tokens[i].compare("{")== 0 && !conditionCommand) { //lior change index to i-3
-//            FuncCommand *func = new FuncCommand();
-//            commands.insert({tokens[i - 2], func});
-//        } else if (tokens[i].compare("}") == 0 && conditionCommand) { //lior added
-//            conditionCommand = false;
-//        }
-//    }
+void Interpreter::printVector(vector<string> vector) {
+for(int i=0 ;i<vector.size();i++){
+    cout<<vector[i]<<", ";
+}
 }
 
 
