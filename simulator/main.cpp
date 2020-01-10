@@ -1,12 +1,14 @@
 #include <iostream>
+#include <mutex>
 #include "Interpreter.h"
 
-int main() {
-<<<<<<< HEAD
-   // std::cout << "Hello, World!" << std::endl;
-=======
->>>>>>> da606779dfbbd53e2ef3cbc2a726be7dff63a512
-    Interpreter i = Interpreter("file_name");
+bool running;
+map<string, Variable>inputVals;
+map<string, Variable>outputVals;
+mutex mutexLock;
 
+int main() {
+    running=true;
+    Interpreter i = Interpreter("file_name");
     return 0;
 }

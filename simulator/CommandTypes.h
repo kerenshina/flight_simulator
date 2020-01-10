@@ -1,6 +1,7 @@
 #ifndef SIMULATOR_COMMAND_TYPES_H
 #define SIMULATOR_COMMAND_TYPES_H
 
+
 #include "Command.h"
 #include <string>
 #include <vector>
@@ -10,8 +11,16 @@
 #include <netinet/in.h>
 #include <cstring>
 #include <unistd.h>
+#include <queue>
+#include <mutex>
 
 using namespace std;
+
+extern queue<string>clientCommands;
+extern map<string, Variable>inputVals;
+extern map<string, Variable>outputVals;
+extern bool running;
+extern mutex mutexLock;
 
 class OpenServerCommand : public Command {
    void createServer(int sourcePort);

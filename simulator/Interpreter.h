@@ -7,6 +7,8 @@
 #include "Variable.h"
 
 using namespace std;
+extern map<string, Variable>inputVals;
+extern map<string, Variable>outputVals;
 
 class Interpreter {
     string fileName;
@@ -15,7 +17,8 @@ class Interpreter {
     map<string, Variable*> symbolTable;
 public:
     Interpreter(string fileName);
-    void printVector(vector<string> vector);
+    bool isInSymbolTable(string symbol);
+        void printVector(vector<string> vector);
     void parser();
     ~Interpreter();
 
