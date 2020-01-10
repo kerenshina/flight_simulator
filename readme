@@ -14,28 +14,32 @@ And client-server architecture.
 - Event-oriented programming, eb application REST style.
 - Mobile Application (Android).
 
-## Installation
+## Installation + Configuration (linux users):
 
 Download the application from official website [FlightGear](https://www.flightgear.org/download/) and install.
 
-```bash
-pip install foobar
+Take from this repository the ```generic_small.xml``` file and put in on Desktop.
+We need to insert this file to **flightgear/Protocol** folder for do it
+Open the terminal(linux) and insert this:
+```linux-terminal
+sudo cp generic_small.xml ../../../usr/share/games/flightgear/Protocol/
 ```
-
-## Usage
-
-```python
-import foobar
-
-foobar.pluralize('word') # returns 'words'
-foobar.pluralize('goose') # returns 'geese'
-foobar.singularize('phenomena') # returns 'phenomenon'
+Open the  **FlightGear Simulator** and select **Settings** in main screen
+and inside **Additional Settings** command-line insert:
+```c++
+--telnet=socket,in,10,127.0.0.1,5402,tcp--generic=socket,out,10,127.0.0.1,5400,tcp,generic_small
 ```
+Now open terminal(linux) and copy this data for compile the program:
+```
+g++ -std=c++14 *.cpp -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -o a.out -pthread
+```
+**Make sure your input txt file at the same folder with your .cpp project files**
+```./a.out file_name.txt```
+Run cpp project that found in this repository
+And Press "Fly!" on FlightGear simulator.
+## Authors:
+Keren Shina
+Alex Weiser
 
 ## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
-
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
+Thank You to our friend that help us Lior Noy.
