@@ -33,3 +33,11 @@ double Variable::calculate() {
 void Variable::setValue(double value){
     this->value =value;
 }
+
+const string Variable::getSim() {
+    return this->sim;
+}
+void Variable::setSim(string sim){
+    this->sim=sim;
+}
+
