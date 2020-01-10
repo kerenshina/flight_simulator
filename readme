@@ -1,0 +1,41 @@
+# Course Advanced-Programming 1 - 89210 : FlightSimulator (FlightGear)
+**Introduction:**
+
+As part of the course we were required to create an Interpreter that allows remote control flight simulator.  
+This project contains the following elements:
+- Use of design and architecture templates.
+- Communication
+And client-server architecture.
+- Use of data structures and database.
+- Streaming data (files and communications).
+- Comparison, selection and implementation of algorithms within the system we create.
+- Parallel programming using Threads.
+- Event-oriented programming, desktop application with GUI.
+- Event-oriented programming, eb application REST style.
+- Mobile Application (Android).
+
+## Installation
+
+Download the application from official website [FlightGear](https://www.flightgear.org/download/) and install.
+
+```bash
+pip install foobar
+```
+
+## Usage
+
+```python
+import foobar
+
+foobar.pluralize('word') # returns 'words'
+foobar.pluralize('goose') # returns 'geese'
+foobar.singularize('phenomena') # returns 'phenomenon'
+```
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
