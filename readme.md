@@ -38,7 +38,6 @@ g++ -std=c++14 *.cpp -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -o a.ou
 Run cpp project that found in this repository
 And Press "Fly!" on FlightGear simulator.
 ## Authors:
-
 **Keren Shina**
 
 **Alex Weiser**
