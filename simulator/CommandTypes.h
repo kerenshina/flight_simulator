@@ -26,14 +26,14 @@ class OpenServerCommand : public Command {
    void createServer(int sourcePort);
 public:
     OpenServerCommand();
-    int execute(vector<string> parameters);
+    int execute(int position);
     ~OpenServerCommand();
 };
 
 class ConnectCommand : public Command  {
 public:
     ConnectCommand();
-    int execute(vector<string> parameters);
+    int execute(int position);
     ~ConnectCommand();
 };
 
@@ -42,7 +42,7 @@ class DefineVarCommand : public Command {
     map<string, Variable*>* symbolTable;
 public:
     DefineVarCommand(map<string, Variable*>* symbolTable);
-    int execute(vector<string> parameters);
+    int execute(int position);
     ~DefineVarCommand();
 };
 
@@ -51,26 +51,24 @@ class UpdateVarCommand : public Command {
     map<string, Variable*>* symbolTable;
 public:
     UpdateVarCommand(map<string, Variable*>* symbolTable);
-    int execute(vector<string> parameters);
+    int execute(int position);
     ~UpdateVarCommand();
 };
 
 class SleepCommand : public Command  {
 public:
     SleepCommand();
-    int execute(vector<string> parameters);
+    int execute(int position);
     ~SleepCommand();
 };
 
 class PrintCommand : public Command  {
 public:
-    PrintCommand();
-    int execute(vector<string> parameters);
+
+   PrintCommand();
+    int execute(int position);
     ~PrintCommand();
 };
-
-
-
 
 
 #endif //SIMULATOR_COMMAND_TYPES_H
