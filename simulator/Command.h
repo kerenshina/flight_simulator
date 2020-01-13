@@ -17,10 +17,10 @@ class Command {
 
 public:
     Command() {}
-    virtual int execute(vector<string> parameters) = 0;
+    virtual int execute(int position) = 0;
     virtual ~Command() {}
-    bool isInInputMap(string str);
-    bool isInOutMap(string str);
+    static bool isInInputMap(string str);
+    static bool isInOutMap(string str);
 };
 
 #endif //SIMULATOR_COMMAND_H
