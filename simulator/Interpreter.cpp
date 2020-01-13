@@ -16,7 +16,7 @@ using namespace std;
 
 Interpreter::Interpreter(string fileName) {
     this->fileName = fileName;
-    this->tokens = lexer();
+    tokens= lexer();
     mapCommands(0);
     cout<<"##### Print tokens: #####" << endl;
     for (int i = 0; i < tokens.size(); i++) {
@@ -30,6 +30,7 @@ Interpreter::Interpreter(string fileName) {
     parser();
 
 }
+
 bool Interpreter::inVec(char c) {
     for (char i : this->operatorVec) {
         if (c == i) {
@@ -138,7 +139,7 @@ bool Interpreter::isInSymbolTable(string symbol){
 void Interpreter::parser() {
     int index = 0;
 cout<<"Tokens size: "<<tokens.size()<<endl;
-    while (index < 154) {
+    while (index < tokens.size()) {
         string currentToken = tokens[index];
         if (isInSymbolTable(currentToken)) {
             currentToken = tokens[index+1];
@@ -155,17 +156,17 @@ cout<<"Tokens size: "<<tokens.size()<<endl;
             cout<<" Parametrs: [";
             printVector(parameters);
             cout<<"]"<<endl;
-            int skip =  c->execute(parameters);
+            int skip =  c->execute(index);
             index += skip;
         }
         index++;
     }
-    cout<<"##### INPUT #####"<<endl;
+    cout<<"##### TO SIMULATOR VARS #####"<<endl;
     for(map<string, Variable>::const_iterator it = inputVals.begin();
         it != inputVals.end(); ++it)
     {
         std::cout << it->first <<endl;
-    }cout<<"##### OUTPUT #####"<<endl;
+    }cout<<"##### FROM SIMULATOR VARS  #####"<<endl;
     for(map<string, Variable>::const_iterator it = outputVals.begin();
         it != outputVals.end(); ++it)
     {
@@ -203,8 +204,35 @@ vector<string> Interpreter::getParameters(int position) {
     string command = tokens[position];
     vector<string> parameters;
     bool scope = false;
-
     position++;
+    if (command.compare("var")==0&&tokens[position+1].compare("=")==0){
+        parameters={tokens[position],tokens[position+1],tokens[position+2]};
+        return parameters;
+    }
+    if (command.compare("while")==0 ||(command.compare("takeoff")==0&&tokens[position].compare("var")==0)){
+        int i = position;
+        int scope =1;
+        while (tokens[i].compare("{")!=0){
+            parameters.push_back(tokens[i]);
+            i++;
+        }
+        parameters.push_back(tokens[i]);
+        i++;
+        while (scope !=0){
+            if (tokens[i].compare("{")==0){
+                scope++;
+            } else if (tokens[i].compare("}")==0){
+                scope--;
+            }
+            parameters.push_back(tokens[i]);
+            i++;
+        }
+        return parameters;
+    }
+    if (command.compare("takeoff")==0){
+        parameters={tokens[position]};
+        return parameters;
+    }
     if (command.compare("Print")==0){
         return {tokens[position]};
     }
@@ -247,11 +275,11 @@ void Interpreter::mapCommands(int index) {
     commands["takeoff"]= new FuncCommand;
 }
 
-void Interpreter::printVector(vector<string> vector) {
-for(int i=0 ;i<vector.size();i++){
-    cout<<vector[i]<<", ";
-}
-}
 
+void Interpreter::printVector(vector<string> vector) {
+for(int i=0 ;i < vector.size(); i++){
+    cout<<vector[i]<<", ";
+    }
+}
 
 
