@@ -17,23 +17,23 @@ class IfCommand : public ConditionParser {
 public:
     IfCommand() {}
     void getCommands(map<string, Command*> commands);
-    int execute(vector<string> parameters);
+    int execute(int position);
     ~IfCommand();
 
 private:
-    bool createCondition(vector<string> parameters);
+    bool createCondition(string var1, string operatorStr,string var2);
 };
 
 class LoopCommand : public ConditionParser {
-    map<string, Command*> commands;
+   // map<string, Command*> commands;
 public:
     LoopCommand() {}
     void getCommands(map<string, Command*> commands);
-    int execute(vector<string> parameters);
+    int execute(int position);
     ~LoopCommand();
 
 private:
-    bool createCondition(vector<string> parameters);
+    bool createCondition(string var1, string operatorStr,string var2);
 };
 
 #endif
