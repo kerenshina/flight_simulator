@@ -1,10 +1,6 @@
-//
-// Created by alex on 10.1.2020.
-//
-
 #include "Command.h"
 
-bool Command::isInInputMap(string str) {
+ bool Command::isInInputMap(string str) {
     for(map<string, Variable>::const_iterator it = inputVals.begin();
         it != inputVals.end(); ++it)
     {
@@ -12,7 +8,7 @@ bool Command::isInInputMap(string str) {
     }
     return false;
 }
-bool Command::isInOutMap(string str) {
+ bool Command::isInOutMap(string str) {
     for(map<string, Variable>::const_iterator it = outputVals.begin();
         it != outputVals.end(); ++it)
     {
@@ -20,5 +16,4 @@ bool Command::isInOutMap(string str) {
     }
     return false;
 }
-
 
