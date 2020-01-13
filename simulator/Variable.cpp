@@ -37,7 +37,9 @@ void Variable::setValue(double value){
 const string Variable::getSim() {
     return this->sim;
 }
+double Variable::getValue(){
+    return this->value;
+}
 void Variable::setSim(string sim){
     this->sim=sim;
 }
-
