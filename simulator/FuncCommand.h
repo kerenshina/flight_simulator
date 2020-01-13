@@ -13,7 +13,7 @@ class FuncCommand : public Command {
 public:
     FuncCommand() {}
     void getCommands(map<string, Command*> commands);
-    int execute(vector<string> parameters);
+    int execute(int position);
     ~FuncCommand();
 };
 
