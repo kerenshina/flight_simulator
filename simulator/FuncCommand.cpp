@@ -1,4 +1,5 @@
 #include "Command.h"
+#include "Interpreter.h"
 #include "FuncCommand.h"
 #include <iostream>
 #include <string>
@@ -6,8 +7,9 @@
 #include <vector>
 
 
-int FuncCommand::execute(vector<string> parameters) {
-
+int FuncCommand::execute(int position) {
+    vector<string> parameters = Interpreter::getParameters(position);
+    return parameters.size();
 }
 
 void FuncCommand::getCommands(map<string, Command*> commands){
@@ -16,8 +18,4 @@ void FuncCommand::getCommands(map<string, Command*> commands){
 
 FuncCommand::~FuncCommand() {
 
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> da606779dfbbd53e2ef3cbc2a726be7dff63a512
