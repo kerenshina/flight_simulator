@@ -1,5 +1,6 @@
 #include "CommandTypes.h"
 #include "Command.h"
+#include "Interpreter.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -24,18 +25,18 @@ OpenServerCommand::OpenServerCommand() {
 
 }
 
-int OpenServerCommand::execute(vector<string> parameters) {
+int OpenServerCommand::execute(int position) {
+    vector<string> parameters = Interpreter::getParameters(position);
     if (parameters.size() != 1) {
         cout << "number of parameters sent to command doesn't match the command type!" << endl;
         return 0;
     }
    int sourcePort = atoi(parameters[0].c_str());
-   createServer(sourcePort);
+   //createServer(sourcePort);
 
     return parameters.size() ;
 }
 void getInfo(int client_socket){
-    cout<<"INSIDE GET INFO";
     char buffer[1024] = {0};
     vector<double>info;
     while(running){
@@ -99,7 +100,7 @@ ConnectCommand::ConnectCommand(){
 
 }
 
-int ConnectCommand::execute(vector<string> parameters) {
+int ConnectCommand::execute(int position) {
 return 2;
 }
 
@@ -112,13 +113,21 @@ DefineVarCommand::DefineVarCommand(map<string, Variable*>* symbolTable) {
     this->symbolTable = symbolTable;
 }
 
-int DefineVarCommand::execute(vector<string> parameters) {
+int DefineVarCommand::execute(int position) {
+    vector<string> parameters=Interpreter::getParameters(position);
     Variable newVar = Variable();
     if (symbolTable->find(parameters[0]) != symbolTable->end()) {
         cout << "Invalid variable definition!" << endl;
         return 0;
     }
+    if (parameters[1].compare("=")==0){
+        double val = outputVals[parameters[2]].getValue();
+        newVar.setValue(val);
+        inputVals[parameters[0]]=newVar;
+        return parameters.size();
+    }
     newVar.setSim(parameters[3]);
+    newVar.setValue(0);
     if (parameters[1].compare("->")){
         outputVals.emplace(parameters[0],newVar);
     } else if (parameters[1].compare("<-")){
@@ -147,7 +156,8 @@ UpdateVarCommand::UpdateVarCommand(map<string, Variable*>* symbolTable) {
     this->symbolTable = symbolTable;
 }
 
-int UpdateVarCommand::execute(vector<string> parameters) {
+int UpdateVarCommand::execute(int position) {
+    vector<string> parameters=Interpreter::getParameters(position);
     auto itr = symbolTable->find(parameters[0]);
     if (itr == symbolTable->end()) {
         cout << "Invalid variable!" << endl;
@@ -166,7 +176,9 @@ SleepCommand::SleepCommand() {
 
 }
 
-int SleepCommand::execute(vector<string> parameters) {
+int SleepCommand::execute(int position) {
+    vector<string> parameters=Interpreter::getParameters(position);
+//this_thread::sleep_for(chrono::milliseconds(stoi(parameters[0])));
 return parameters.size();
 }
 
@@ -179,8 +191,18 @@ PrintCommand::PrintCommand() {
 
 }
 
-int PrintCommand::execute(vector<string> parameters) {
+int PrintCommand::execute(int position) {
+    vector<string> parameters = Interpreter::getParameters(position);
+    double value = -999;
+    if (isInOutMap(parameters[0])){
+        value = outputVals[parameters[0]].getValue();
+    } else   if (isInInputMap(parameters[0])){
+        value = inputVals[parameters[0]].getValue();
+    }
+        if (value == -999){
     cout<<parameters[0]<<endl;
+        }
+        else     cout<<value<<endl;
     if (parameters[0].compare("done")==0){
         running=false;
     }
