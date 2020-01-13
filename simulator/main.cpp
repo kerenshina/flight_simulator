@@ -5,6 +5,8 @@
 bool running;
 map<string, Variable>inputVals;
 map<string, Variable>outputVals;
+vector<string> tokens;
+map<string,Command*> commands;
 mutex mutexLock;
 
 int main() {
