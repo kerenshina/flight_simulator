@@ -9,24 +9,24 @@
 using namespace std;
 extern map<string, Variable>inputVals;
 extern map<string, Variable>outputVals;
+extern vector<string> tokens;
+extern map<string,Command*> commands;
 
 class Interpreter {
     string fileName;
-    vector<string> tokens;
-    map<string,Command*> commands;
     map<string, Variable*> symbolTable;
 public:
     Interpreter(string fileName);
     bool isInSymbolTable(string symbol);
         void printVector(vector<string> vector);
     void parser();
+    static vector<string> getParameters(int position);
     ~Interpreter();
 
 private:
     vector<char> operatorVec = {'<', '>', '!', '='};
     vector<string> lexer();
     vector<string> getLinesFromFile();
-    vector<string> getParameters(int position);
     void mapCommands(int index);
     bool inVec(char c);
 
