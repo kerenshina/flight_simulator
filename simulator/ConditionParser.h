@@ -10,7 +10,7 @@ using namespace std;
 class ConditionParser : public Command {
 
 public:
-    virtual int execute(vector<string> parameters) = 0;
+    virtual int execute(int position) = 0;
 };
 
 #endif //SIMULATOR_CONDITION_PARSER_H
