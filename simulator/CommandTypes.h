@@ -12,6 +12,7 @@
 #include <cstring>
 #include <unistd.h>
 #include <queue>
+#include <thread>
 #include <mutex>
 
 using namespace std;
@@ -23,7 +24,7 @@ extern bool running;
 extern mutex mutexLock;
 
 class OpenServerCommand : public Command {
-   void createServer(int sourcePort);
+    void createServer(int sourcePort);
 public:
     OpenServerCommand();
     int execute(int position);
@@ -38,7 +39,6 @@ public:
 };
 
 class DefineVarCommand : public Command {
-    //private:
     map<string, Variable*>* symbolTable;
 public:
     DefineVarCommand(map<string, Variable*>* symbolTable);
@@ -47,7 +47,6 @@ public:
 };
 
 class UpdateVarCommand : public Command {
-    //private:
     map<string, Variable*>* symbolTable;
 public:
     UpdateVarCommand(map<string, Variable*>* symbolTable);
@@ -65,10 +64,8 @@ public:
 class PrintCommand : public Command  {
 public:
 
-   PrintCommand();
+    PrintCommand();
     int execute(int position);
     ~PrintCommand();
 };
-
-
 #endif //SIMULATOR_COMMAND_TYPES_H
