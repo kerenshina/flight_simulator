@@ -1,23 +1,18 @@
 
 #ifndef SIMULATOR_VARIABLE_H
 #define SIMULATOR_VARIABLE_H
-
+#include "Expression.h"
 #include <string>
 using namespace std;
 
-enum Directions {left, right};
-
-class Variable {
+class Variable : public Expression {
     double value;
     string sim;
-   // Directions direction;
+
 public:
     Variable() {}
     void setSim(string sim);
     void setValue(double value);
-    //void setDirectionByStr(string arrow);
-   // void setDirectionByInt(Directions direction);
-    //Directions getDirection();
     const string getSim();
     double getValue();
     double calculate();
@@ -27,6 +22,6 @@ public:
     Variable& operator-=(double val);
     Variable& operator++(int num);
     Variable& operator--(int num);
-        ~Variable(){}
+    ~Variable(){}
 };
 #endif //SIMULATOR_VARIABLE_H
