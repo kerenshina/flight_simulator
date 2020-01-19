@@ -18,7 +18,6 @@ class Interpreter {
 public:
     Interpreter(string fileName);
     bool isInSymbolTable(string symbol);
-        void printVector(vector<string> vector);
     void parser();
     static vector<string> getParameters(int position);
     ~Interpreter();
@@ -27,9 +26,8 @@ private:
     vector<char> operatorVec = {'<', '>', '!', '='};
     vector<string> lexer();
     vector<string> getLinesFromFile();
-    void mapCommands(int index);
+    void mapCommands();
     bool inVec(char c);
-
 };
 
 #endif //SIMULATOR_INTERPRETER_H
